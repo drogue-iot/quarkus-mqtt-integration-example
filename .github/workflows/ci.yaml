@@ -37,7 +37,14 @@ jobs:
 
       - name: Create image
         run: |
-          docker build -t $IMAGE_NAME . -f src/main/docker/Dockerfile.jvm
+          docker build -t ${IMAGE_NAME}-jvm . -f src/main/docker/Dockerfile.jvm
+
+      - name: Build with Maven
+        run: mvn --batch-mode package -Pnative
+
+      - name: Create image
+        run: |
+          docker build -t ${IMAGE_NAME}-native . -f src/main/docker/Dockerfile.native-distroless
 
       - name: Login to github container repository
         if: ${{github.head_ref == ''}} # only for non-PRs
@@ -53,5 +60,8 @@ jobs:
           [ "$VERSION" == "main" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+
+          for i in jvm native; do
+            docker tag ${IMAGE_NAME}-${i} ${IMAGE_ID}-${i}:$VERSION
+            docker push ${IMAGE_ID}-${i}:$VERSION
+          done

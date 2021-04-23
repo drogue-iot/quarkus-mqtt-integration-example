@@ -15,6 +15,9 @@
 #
 ###
 FROM quay.io/quarkus/quarkus-distroless-image:1.0
+
+LABEL org.opencontainers.image.source="https://github.com/drogue-iot/quarkus-mqtt-integration-example"
+
 COPY target/*-runner /application
 
 EXPOSE 8080
