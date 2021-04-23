@@ -37,7 +37,7 @@ jobs:
 
       - name: Create image
         run: |
-          docker build -t $IMAGE_NAME . -f src/main/Docker.jvm
+          docker build -t $IMAGE_NAME . -f src/main/docker/Dockerfile.jvm
 
       - name: Login to github container repository
         if: ${{github.head_ref == ''}} # only for non-PRs
