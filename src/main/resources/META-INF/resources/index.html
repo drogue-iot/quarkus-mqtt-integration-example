@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mqtt-integration - 1.0.0-SNAPSHOT</title>
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem
+        }
+
+        h3 {
+            font-size: 1.75rem
+
+        }
+
+        h4 {
+            font-size: 1.5rem
+        }
+
+        h5 {
+            font-size: 1.25rem
+        }
+
+        h6 {
+            font-size: 1rem
+        }
+
+        .lead {
+            font-weight: 300;
+            font-size: 2rem;
+        }
+
+        .banner {
+            font-size: 2.7rem;
+            margin: 0;
+            padding: 2rem 1rem;
+            background-color: #0d1c2c;
+            color: white;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        code {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 87.5%;
+            color: #e83e8c;
+            word-break: break-word;
+        }
+
+        .left-column {
+            padding: .75rem;
+            max-width: 75%;
+            min-width: 55%;
+        }
+
+        .right-column {
+            padding: .75rem;
+            max-width: 25%;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        li {
+            margin: 0.75rem;
+        }
+
+        .right-section {
+            margin-left: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .right-section h3 {
+            padding-top: 0;
+            font-weight: 200;
+        }
+
+        .right-section ul {
+            border-left: 0.3rem solid #71aeef;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .example-code {
+            border-left: 0.3rem solid #71aeef;
+            padding-left: 10px;
+        }
+
+        .example-code h3 {
+            font-weight: 200;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="banner lead">
+    Drogue IoT meets Quarkus!
+</div>
+
+<div class="container">
+    <div class="left-column">
+
+        <h2>Device events</h2>
+
+        <p>This page is served by Quarkus. The source is in
+            <code>src/main/resources/META-INF/resources/index.html</code>.</p>
+
+        <div>
+            <h3>Latest message</h3>
+            <dl>
+                <dt>Device ID</dt>
+                <dd>
+                    <pre><code><span id="device_id">&nbsp;</span></code></pre>
+                </dd>
+                <dt>Timestamp</dt>
+                <dd>
+                    <pre><code><span id="timestamp">&nbsp;</span></code></pre>
+                </dd>
+                <dt>Payload</dt>
+                <dd>
+                    <pre><code><span id="payload">&nbsp;</span></code></pre>
+                </dd>
+            </dl>
+        </div>
+
+    </div>
+    <div class="right-column">
+        <div class="right-section">
+            <h3>Do you like Drogue IoT cloud?</h3>
+            <ul>
+                <li>Go give it a star on <a href="https://github.com/drogue-iot/drogue-cloud">GitHub</a>.</li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <h3>More reading</h3>
+            <ul>
+                <li><a href="https://drogue.io" target="_blank">Drogue IoT</a></li>
+                <li><a href="https://sandbox.drogue.cloud" target="_blank">Public sandbox</a></li>
+                <li><a href="https://github.com/drogue-iot" target="_blank">GitHub organization</a></li>
+                <li><a href="https://matrix.to/#/#drogue-iot:matrix.org" target="_blank">Matrix chat channel</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    const source = new EventSource("/events/stream");
+    source.onmessage = function (event) {
+        console.log("SEE: ", event);
+        const obj = JSON.parse(event.data);
+        console.log("Device: ", obj)
+        document.getElementById("device_id").innerText = obj.deviceId;
+        document.getElementById("timestamp").innerText = obj.timestamp;
+        document.getElementById("payload").innerText = obj.payload;
+    };
+</script>
+
+</html>
