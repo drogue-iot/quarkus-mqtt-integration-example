@@ -1,4 +1,8 @@
-#Maven
+# Configuration
+
+deploy/*-configuration.yaml
+
+# Maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
