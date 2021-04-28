@@ -1,0 +1,18 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: credentials
+stringData:
+  MP_MESSAGING_INCOMING_TELEMETRY_USERNAME: "me"
+  MP_MESSAGING_INCOMING_TELEMETRY_PASSWORD: "my-secret"
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: configuration
+data:
+  MP_MESSAGING_INCOMING_TELEMTRY_TOPIC: app/ctron-ttn2
+  MP_MESSAGING_INCOMING_TELEMTRY_HOST: mqtt-integration-drogue-dev.apps.wonderful.iot-playground.org
+  MP_MESSAGING_INCOMING_TELEMTRY_PORT: "443"
+
