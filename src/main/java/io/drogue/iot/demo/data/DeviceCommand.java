@@ -1,7 +1,13 @@
 package io.drogue.iot.demo.data;
 
+import java.util.Arrays;
+import java.util.StringJoiner;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * An outgoing device message.
+ */
 @RegisterForReflection
 public class DeviceCommand {
     private String deviceId;
@@ -21,5 +27,13 @@ public class DeviceCommand {
 
     public void setPayload(byte[] payload) {
         this.payload = payload;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DeviceCommand.class.getSimpleName() + "[", "]")
+                .add("deviceId='" + this.deviceId + "'")
+                .add("payload=" + Arrays.toString(this.payload))
+                .toString();
     }
 }

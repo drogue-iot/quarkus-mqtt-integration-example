@@ -104,6 +104,17 @@
         .example-code h3 {
             font-weight: 200;
         }
+
+        .row {
+            display: flex;
+        }
+
+        .row > div {
+            padding-right: 2rem;
+            flex-grow: 1;
+            flex-basis: 0;
+        }
+
     </style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -122,22 +133,56 @@
         <p>This page is served by Quarkus. The source is in
             <code>src/main/resources/META-INF/resources/index.html</code>.</p>
 
-        <div>
-            <h3>Latest message</h3>
-            <dl>
-                <dt>Device ID</dt>
-                <dd>
-                    <pre><code><span id="device_id">&nbsp;</span></code></pre>
-                </dd>
-                <dt>Timestamp</dt>
-                <dd>
-                    <pre><code><span id="timestamp">&nbsp;</span></code></pre>
-                </dd>
-                <dt>Payload</dt>
-                <dd>
-                    <pre><code><span id="payload">&nbsp;</span></code></pre>
-                </dd>
-            </dl>
+        <div class="row">
+            <div>
+                <h3>Latest message</h3>
+                <dl>
+                    <dt>Device ID</dt>
+                    <dd>
+                        <pre><code><span id="device_id">&nbsp;</span></code></pre>
+                    </dd>
+                    <dt>Timestamp</dt>
+                    <dd>
+                        <pre><code><span id="timestamp">&nbsp;</span></code></pre>
+                    </dd>
+                    <dt>Payload</dt>
+                    <dd>
+                        <pre><code><span id="payload">&nbsp;</span></code></pre>
+                    </dd>
+                </dl>
+            </div>
+
+            <div>
+                <h3>Response</h3>
+                <dl>
+                    <dt>Current response</dt>
+                    <dd>
+                        <pre><code><span id="response">&nbsp;</span></code></pre>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><label for="new-response">New response</label></dt>
+                    <dd>
+                        <input type="text" name="response" id="new-response">
+                    </dd>
+                </dl>
+                <button onclick="set_response();">Set response</button>
+            </div>
+
+            <div>
+                <h3>Latest command</h3>
+                <dl>
+                    <dt>Device ID</dt>
+                    <dd>
+                        <pre><code><span id="cmd_device_id">&nbsp;</span></code></pre>
+                    </dd>
+                    <dt>Payload</dt>
+                    <dd>
+                        <pre><code><span id="cmd_payload">&nbsp;</span></code></pre>
+                    </dd>
+                </dl>
+            </div>
+
         </div>
 
     </div>
@@ -162,8 +207,8 @@
 </body>
 
 <script>
-    const source = new EventSource("/events/stream");
-    source.onmessage = function (event) {
+    const device_events = new EventSource("/events/stream");
+    device_events.onmessage = function (event) {
         console.log("SEE: ", event);
         const obj = JSON.parse(event.data);
         console.log("Device: ", obj)
@@ -171,6 +216,27 @@
         document.getElementById("timestamp").innerText = obj.timestamp;
         document.getElementById("payload").innerText = obj.payload;
     };
+    const response_events = new EventSource("/events/response");
+    response_events.onmessage = function (event) {
+        console.log("SEE: ", event);
+        document.getElementById("response").innerText = event.data;
+    };
+    const command_events = new EventSource("/events/commands");
+    command_events.onmessage = function (event) {
+        console.log("SEE: ", event);
+        const obj = JSON.parse(event.data);
+        console.log("Command: ", obj)
+        document.getElementById("cmd_device_id").innerText = obj.deviceId;
+        document.getElementById("cmd_payload").innerText = obj.payload;
+    };
+
+    function set_response() {
+        const response = document.getElementById("new-response").value;
+        console.log("Setting new response: ", response);
+        const req = new XMLHttpRequest();
+        req.open("POST", "/response");
+        req.send(response);
+    }
 </script>
 
 </html>

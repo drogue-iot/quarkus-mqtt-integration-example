@@ -4,6 +4,9 @@ import java.time.Instant;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * An incoming device message.
+ */
 @RegisterForReflection
 public class DeviceEvent {
     private String deviceId;

@@ -1,4 +1,4 @@
-package io.drogue.iot.demo;
+package io.drogue.iot.demo.integration;
 
 import static io.cloudevents.core.CloudEventUtils.mapData;
 
@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.cloudevents.CloudEvent;
-import io.cloudevents.core.format.EventFormat;
 import io.cloudevents.core.provider.EventFormatProvider;
 import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.jackson.PojoCloudEventDataMapper;
@@ -26,6 +24,9 @@ import io.drogue.iot.demo.data.TtnUplink;
 import io.quarkus.runtime.Startup;
 import io.smallrye.reactive.messaging.annotations.Broadcast;
 
+/**
+ * Receive events from the Drogue IoT MQTT integration.
+ */
 @Startup
 @ApplicationScoped
 public class Receiver {
@@ -35,6 +36,12 @@ public class Receiver {
     @Inject
     ObjectMapper objectMapper;
 
+    /**
+     * Receive an event, parse into a Cloud Event, and extract the TTN uplink information.
+     *
+     * @param rawMessage The raw MQTT message.
+     * @return The processed {@link DeviceEvent}, or {@code null} if the event couldn't be processed.
+     */
     @Incoming("telemetry")
     @Outgoing("event-stream")
     @Broadcast
@@ -46,11 +53,11 @@ public class Receiver {
 
         // start processing
 
-        EventFormat format = EventFormatProvider
+        var format = EventFormatProvider
                 .getInstance()
                 .resolveFormat(JsonFormat.CONTENT_TYPE);
 
-        CloudEvent event = format.deserialize(rawMessage.getPayload());
+        var event = format.deserialize(rawMessage.getPayload());
 
         LOG.info("Received event: {}", event);
 

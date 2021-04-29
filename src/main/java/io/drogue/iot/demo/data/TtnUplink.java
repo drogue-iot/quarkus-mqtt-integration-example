@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * An uplink message, coming the The Things Network.
+ * <br>
+ * This class doesn't contain all the field, just the ones we are interested in.
+ */
 @RegisterForReflection
 public class TtnUplink {
 
