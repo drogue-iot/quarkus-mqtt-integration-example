@@ -60,7 +60,7 @@ public class Processor {
 
         LOG.info("Received payload: {}", payload);
 
-        if (!event.getPayload().equals("ping")) {
+        if (!event.getPayload().startsWith("ping:")) {
             return null;
         }
 
