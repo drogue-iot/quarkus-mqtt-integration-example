@@ -96,11 +96,6 @@
             padding-left: 0;
         }
 
-        .example-code {
-            border-left: 0.3rem solid #71aeef;
-            padding-left: 10px;
-        }
-
         .example-code h3 {
             font-weight: 200;
         }
@@ -113,6 +108,11 @@
             padding-right: 2rem;
             flex-grow: 1;
             flex-basis: 0;
+        }
+
+        .description {
+            padding-left: 2em;
+            max-width: 50em;
         }
 
     </style>
@@ -130,8 +130,30 @@
 
         <h2>Device events</h2>
 
-        <p>This page is served by Quarkus. The source is in
-            <code>src/main/resources/META-INF/resources/index.html</code>.</p>
+        <div class="description">
+            <p>
+                This page shows the events, sent by a device publishing to The Things Network, processed and
+                received from Drogue IoT through its MQTT integration.
+            </p>
+
+            <p>
+                When you press the blue button on the device, it will publish a message, which you can see on the left
+                side.
+                The Quarkus application will then send back the response, and show what was sent on the right hand side.
+            </p>
+
+            <p>
+                The default response is <code>pong</code>. However, you can the it to <code>led:on</code> to switch on
+                the
+                blue LED. With <code>led:off</code> you can turn it off again.
+            </p>
+
+            <p>
+                As LoRa is a low-power technology, the device will only receive shortly after it has sent some data. So
+                changing the response here will not send out a change immediately. The next time the device sends some
+                data, it will receive the new command.
+            </p>
+        </div>
 
         <div class="row">
             <div>
@@ -191,6 +213,15 @@
             <h3>Do you like Drogue IoT cloud?</h3>
             <ul>
                 <li>Go give it a star on <a href="https://github.com/drogue-iot/drogue-cloud">GitHub</a>.</li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <h3>Source code</h3>
+            <ul>
+                <li><a href="https://github.com/drogue-iot/quarkus-mqtt-integration-example"
+                       target="_blank">This example</a></li>
+                <li><a href="https://github.com/drogue-iot/drogue-device-ng/tree/main/examples/stm32l0xx/lora-discovery"
+                       target="_blank">Device firmware</a></li>
             </ul>
         </div>
         <div class="right-section">

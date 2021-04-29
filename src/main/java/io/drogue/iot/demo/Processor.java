@@ -35,7 +35,7 @@ public class Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(Processor.class);
 
-    private String response = "pong";
+    private volatile String response = "pong";
 
     @Inject
     @Channel("response-changes")
