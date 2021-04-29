@@ -6,13 +6,14 @@ metadata:
 stringData:
   MP_MESSAGING_INCOMING_TELEMETRY_USERNAME: "me"
   MP_MESSAGING_INCOMING_TELEMETRY_PASSWORD: "my-secret"
+  MP_MESSAGING_OUTGOING_COMMANDS_USERNAME: "me"
+  MP_MESSAGING_OUTGOING_COMMANDS_PASSWORD: "my-secret"
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: configuration
 data:
-  MP_MESSAGING_INCOMING_TELEMTRY_TOPIC: app/ctron-ttn2
-  MP_MESSAGING_INCOMING_TELEMTRY_HOST: mqtt-integration-drogue-dev.apps.wonderful.iot-playground.org
-  MP_MESSAGING_INCOMING_TELEMTRY_PORT: "443"
-
+  DROGUE_INTEGRATION_MQTT_HOST: mqtt-integration-drogue-dev.apps.wonderful.iot-playground.org
+  DROGUE_INTEGRATION_MQTT_PORT: "443"
+  DROGUE_APPLICATION_NAME: ctron-ttn2 # change this to your application
