@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import io.drogue.iot.demo.data.DeviceCommand;
 import io.drogue.iot.demo.data.DeviceEvent;
+import io.quarkus.runtime.Startup;
 import io.smallrye.reactive.messaging.annotations.Broadcast;
 
 /**
@@ -30,6 +31,7 @@ import io.smallrye.reactive.messaging.annotations.Broadcast;
  * can send a command to the device the same way at any time. The message might get queued if it cannot be delivered
  * right away. But for this demo, we want to see some immediate results.
  */
+@Startup
 @ApplicationScoped
 public class Processor {
 
