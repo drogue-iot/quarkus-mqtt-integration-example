@@ -62,14 +62,16 @@ public class Processor {
 
         LOG.info("Received payload: {}", payload);
 
-        if (!event.getPayload().startsWith("ping:")) {
+        if (!payload.startsWith("ping:")) {
             return null;
         }
+
+        var responsePayload = response + payload.substring(payload.indexOf(':'));
 
         var command = new DeviceCommand();
 
         command.setDeviceId(event.getDeviceId());
-        command.setPayload(this.response.getBytes(StandardCharsets.UTF_8));
+        command.setPayload(responsePayload.getBytes(StandardCharsets.UTF_8));
 
         return command;
 
